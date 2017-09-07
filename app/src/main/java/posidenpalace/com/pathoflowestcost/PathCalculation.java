@@ -18,7 +18,7 @@ public class PathCalculation {
         solution = new int[testingMatrix.length];
         currentPath = new int[testingMatrix.length];
         cost =(calculateLowestCost(testingMatrix[0]));
-        setMazeComplete(cost < 50);
+
 
     }
 
@@ -27,6 +27,11 @@ public class PathCalculation {
         for (int i = 0; i < column.length; i++) {
             int entry = column[i];
             currentPath[depth-1] =i+1;
+            if (runningCost + entry >=50){
+                setMazeComplete(false);
+                lowestCost = runningCost;
+                return lowestCost;
+            }
             if (depth == testingMatrix.length) {
                 if (depth-1 == 0){// makes sure the first entry of a nx1 array dosen't instantly return
                     runningCost = entry;
@@ -40,6 +45,7 @@ public class PathCalculation {
             if (runningCost<lowestCost){
                 lowestCost = runningCost;
                 setSolution(currentPath);
+                setMazeComplete(true);
             }
 
         }

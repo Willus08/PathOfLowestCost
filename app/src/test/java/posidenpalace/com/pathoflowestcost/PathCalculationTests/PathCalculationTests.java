@@ -10,6 +10,7 @@ import posidenpalace.com.pathoflowestcost.PathCalculation;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class PathCalculationTests {
@@ -17,6 +18,7 @@ public class PathCalculationTests {
     private PathCalculation calculator;
     private int[][] testMatrix_1x1;
     private int[][] testMatrix_6x1;
+    private int[][] testFailMatrix;
 
 
     @Before
@@ -24,6 +26,7 @@ public class PathCalculationTests {
         calculator = new PathCalculation();
         testMatrix_1x1 = new int[][]{{1}};
         testMatrix_6x1 = new int[][]{{1,2,3,4,5,-2}};
+        testFailMatrix = new int[][] {{50}};
     }
 
     @Test
@@ -47,6 +50,16 @@ public class PathCalculationTests {
         assertEquals(-2, calculator.getCost());
         assertTrue(calculator.isMazeComplete());
         assertArrayEquals(new int[]{6}, calculator.getSolution());
+    }
+    @Test
+    public void Should_fail_to_find_Path(){
+        calculator.beginTest(testFailMatrix);
+        System.out.println(calculator.isMazeComplete());
+        System.out.println(calculator.getCost());
+        System.out.println(Arrays.toString(calculator.getSolution()));
+        assertEquals(0, calculator.getCost());
+        assertFalse(calculator.isMazeComplete());
+        assertArrayEquals(new int[]{0}, calculator.getSolution());
     }
 
 
