@@ -36,11 +36,11 @@ public class PathCalculation {
                 if (depth-1 == 0){// makes sure the first entry of a nx1 array dosen't instantly return
                     runningCost = entry;
                 }else {
-                    return runningCost+=entry;
+                    return runningCost=entry;
                 }
             }else {
                 int[] adjacentEntries = createAdjacentArray(i);
-                runningCost += entry + calculateLowestCost(adjacentEntries);
+                runningCost = entry + calculateLowestCost(adjacentEntries);
             }
             if (runningCost<lowestCost){
                 lowestCost = runningCost;
@@ -53,20 +53,41 @@ public class PathCalculation {
     }
 
     private int[] createAdjacentArray(int i) {
-        int[] adjacentEntries = new int[3];
-        if (i-1 <0){// tests to see if this is the top row so it can wrap to the bottom
-            adjacentEntries[0] = testingMatrix[depth][testingMatrix[depth].length];
-        }else {
-            adjacentEntries[0] = testingMatrix[depth][i-1];
+        int[] adjacentEntries;
+        switch (testingMatrix[i].length){
+            case 1:
+                adjacentEntries = new int[1];
+                adjacentEntries[0] = testingMatrix[depth][i];
+                break;
+            case 2:
+                adjacentEntries = new int[2];
+                adjacentEntries[0] = testingMatrix[depth][0];
+                adjacentEntries[1] = testingMatrix[depth][1];
+                break;
+            case 3:
+                adjacentEntries = new int[3];
+                adjacentEntries[0] = testingMatrix[depth][0];
+                adjacentEntries[1] = testingMatrix[depth][1];
+                adjacentEntries[2] = testingMatrix[depth][2];
+                break;
+            default:
+                adjacentEntries = new int[3];
+                if (i-1 <0){// tests to see if this is the top row so it can wrap to the bottom
+                    adjacentEntries[0] = testingMatrix[depth][testingMatrix[depth].length];
+                }else {
+                    adjacentEntries[0] = testingMatrix[depth][i-1];
+                }
+
+                adjacentEntries[1] = testingMatrix[depth][i];
+
+                if (i+1 >testingMatrix[depth].length){// tests to see if this is the bottom row so it can wrap to the top
+                    adjacentEntries[2] = testingMatrix[depth][0];
+                }else {
+                    adjacentEntries[2] = testingMatrix[depth][i+1];
+                }
+
         }
 
-        adjacentEntries[1] = testingMatrix[depth][i];
-
-        if (i+1 >testingMatrix[depth].length){// tests to see if this is the bottom row so it can wrap to the top
-            adjacentEntries[2] = testingMatrix[depth][0];
-        }else {
-            adjacentEntries[2] = testingMatrix[depth][i+1];
-        }
         return adjacentEntries;
     }
 

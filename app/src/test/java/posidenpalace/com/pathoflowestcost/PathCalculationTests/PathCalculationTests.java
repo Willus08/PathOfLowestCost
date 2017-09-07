@@ -19,6 +19,7 @@ public class PathCalculationTests {
     private int[][] testMatrix_1x1;
     private int[][] testMatrix_6x1;
     private int[][] testFailMatrix;
+    private int[][] testMatrix_2x2;
 
 
     @Before
@@ -27,6 +28,7 @@ public class PathCalculationTests {
         testMatrix_1x1 = new int[][]{{1}};
         testMatrix_6x1 = new int[][]{{1,2,3,4,5,-2}};
         testFailMatrix = new int[][] {{50}};
+        testMatrix_2x2 = new int[][]{{1,2},{2,1}};
     }
 
     @Test
@@ -51,6 +53,7 @@ public class PathCalculationTests {
         assertTrue(calculator.isMazeComplete());
         assertArrayEquals(new int[]{6}, calculator.getSolution());
     }
+
     @Test
     public void Should_fail_to_find_Path(){
         calculator.beginTest(testFailMatrix);
@@ -60,6 +63,17 @@ public class PathCalculationTests {
         assertEquals(0, calculator.getCost());
         assertFalse(calculator.isMazeComplete());
         assertArrayEquals(new int[]{0}, calculator.getSolution());
+    }
+
+    @Test
+    public void Should_pass_a_NxM_Matrix(){
+        calculator.beginTest(testMatrix_2x2);
+        System.out.println(calculator.isMazeComplete());
+        System.out.println(calculator.getCost());
+        System.out.println(Arrays.toString(calculator.getSolution()));
+        assertEquals(2, calculator.getCost());
+        assertTrue(calculator.isMazeComplete());
+        assertArrayEquals(new int[]{1,2}, calculator.getSolution());
     }
 
 
