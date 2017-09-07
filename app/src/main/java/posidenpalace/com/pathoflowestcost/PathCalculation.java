@@ -12,11 +12,11 @@ public class PathCalculation {
     private int depth =0;
 
 
-    public void beginTest(int[][] newMatrix){
-        testingMatrix = newMatrix;
+    public void beginTest(int[][] matrix){
+        testingMatrix = matrix;
         runningCost = 0;
+        solution = new int[testingMatrix.length];
         currentPath = new int[testingMatrix.length];
-        solution = new int[currentPath.length];
         cost =(calculateLowestCost(testingMatrix[0]));
         setMazeComplete(cost < 50);
 
@@ -26,16 +26,20 @@ public class PathCalculation {
         depth++;
         for (int i = 0; i < column.length; i++) {
             int entry = column[i];
-            currentPath[depth-1] =i;
+            currentPath[depth-1] =i+1;
             if (depth == testingMatrix.length) {
-                    return entry;
+                if (depth-1 == 0){// makes sure the first entry of a nx1 array dosen't instantly return
+                    runningCost = entry;
+                }else {
+                    return runningCost+=entry;
+                }
             }else {
                 int[] adjacentEntries = createAdjacentArray(i);
                 runningCost += entry + calculateLowestCost(adjacentEntries);
             }
             if (runningCost<lowestCost){
                 lowestCost = runningCost;
-               setSolution(currentPath);
+                setSolution(currentPath);
             }
 
         }
