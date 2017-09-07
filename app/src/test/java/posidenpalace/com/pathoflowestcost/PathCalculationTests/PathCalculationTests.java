@@ -6,23 +6,31 @@ import org.junit.Test;
 
 import posidenpalace.com.pathoflowestcost.PathCalculation;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PathCalculationTests {
 
-    private PathCalculation mockedCalculator;
-    int[][] testMatrix1_6;
+    private PathCalculation calculator;
+    private int[][] testMatrix1_1;
+
+
     @Before
     public void setup(){
-        mockedCalculator = mock(PathCalculation.class);
-        testMatrix1_6 = new int[][]{{1,2,3,4,5,3}};
+        calculator = new PathCalculation();
+        testMatrix1_1 = new int[][]{{1}};
+
     }
 
     @Test
     public void Should_Pass_Thru_Simple_Matrix(){
-        assertEquals(13, mockedCalculator.getCost());
-        assertArrayEquals(new int[]{1, 2, 3, 4, 5, 3}, mockedCalculator.getSolution());
-        assertTrue(mockedCalculator.isMazeComplete());
+        calculator.beginTest(testMatrix1_1);
+        assertEquals(1, calculator.getCost());
+        assertTrue(calculator.isMazeComplete());
+        assertArrayEquals(new int[1], calculator.getSolution());
+
     }
+
+
 }

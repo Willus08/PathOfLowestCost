@@ -1,17 +1,64 @@
 package posidenpalace.com.pathoflowestcost;
 
 
-
 public class PathCalculation {
     private int[][] testingMatrix;
     private boolean mazeComplete;
     private int cost;
     private int[] solution;
+    private int runningCost;
+    private int lowestCost = 50;
+    private int[] currentPath;
+    private int depth =0;
 
-    PathCalculation(int[][] newMatrix){
-        this.testingMatrix = newMatrix;
+
+    public void beginTest(int[][] newMatrix){
+        testingMatrix = newMatrix;
+        runningCost = 0;
+        currentPath = new int[testingMatrix.length];
+        solution = new int[currentPath.length];
+        cost =(calculateLowestCost(testingMatrix[0]));
+        setMazeComplete(cost < 50);
+
     }
 
+    private int calculateLowestCost(int[] column){
+        depth++;
+        for (int i = 0; i < column.length; i++) {
+            int entry = column[i];
+            currentPath[depth-1] =i;
+            if (depth == testingMatrix.length) {
+                    return entry;
+            }else {
+                int[] adjacentEntries = createAdjacentArray(i);
+                runningCost += entry + calculateLowestCost(adjacentEntries);
+            }
+            if (runningCost<lowestCost){
+                lowestCost = runningCost;
+               setSolution(currentPath);
+            }
+
+        }
+        return lowestCost;
+    }
+
+    private int[] createAdjacentArray(int i) {
+        int[] adjacentEntries = new int[3];
+        if (i-1 <0){// tests to see if this is the top row so it can wrap to the bottom
+            adjacentEntries[0] = testingMatrix[depth][testingMatrix[depth].length];
+        }else {
+            adjacentEntries[0] = testingMatrix[depth][i-1];
+        }
+
+        adjacentEntries[1] = testingMatrix[depth][i];
+
+        if (i+1 >testingMatrix[depth].length){// tests to see if this is the bottom row so it can wrap to the top
+            adjacentEntries[2] = testingMatrix[depth][0];
+        }else {
+            adjacentEntries[2] = testingMatrix[depth][i+1];
+        }
+        return adjacentEntries;
+    }
 
     public boolean isMazeComplete() {
         return mazeComplete;
