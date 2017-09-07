@@ -66,7 +66,7 @@ public class PathCalculationTests {
     }
 
     @Test
-    public void Should_pass_a_NxM_Matrix(){
+    public void Should_pass_a_2x2_Matrix(){
         calculator.beginTest(testMatrix_2x2);
         System.out.println(calculator.isMazeComplete());
         System.out.println(calculator.getCost());
